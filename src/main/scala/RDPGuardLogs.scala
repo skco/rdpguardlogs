@@ -1,6 +1,4 @@
-import org.apache.spark.sql.{Dataset, Row, SparkSession, functions}
-import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.apache.spark.sql.functions._
 
 object RDPGuardLogs {
@@ -28,11 +26,11 @@ object RDPGuardLogs {
                                      .withColumn("minute", date_format(col("datetime"), "yyyy-MM-dd hh:mm").alias("minute"))
                                      .withColumn("sec", date_format(col("datetime"), "yyyy-MM-dd hh:mm:ss").alias("sec"))
 
-       logs.printSchema()
-       logs.show(10000,truncate = false)
-       println(logs.count())
+       //logs.printSchema()
+       //logs.show(10000,truncate = false)
+       //println(logs.count())
 
-       //failed login attempts per second
+       //write failed login attempts per second to csv
        logs.na.drop().groupBy("sec").count().sort("sec").coalesce(1).write.csv("E:/RDPLogs/perSec.csv")
 
   }
