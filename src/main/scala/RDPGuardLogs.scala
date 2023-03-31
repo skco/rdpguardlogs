@@ -32,9 +32,7 @@ object RDPGuardLogs {
        logs.show(10000,truncate = false)
        println(logs.count())
 
-
-       //logs.select(date_format(col("datetime"),"yyyy-MM-dd").alias("day")).groupBy("day").count().show()
-
+       //failed login attempts per second
        logs.na.drop().groupBy("sec").count().sort("sec").coalesce(1).write.csv("E:/RDPLogs/perSec.csv")
 
   }
